@@ -7,6 +7,7 @@
   class MyPromise {
     #state = PENDING;
     #result = undefined;
+    #handlers = [];
     constructor(promiseExecutor) {
       const resolve = (data) => {
         this.#changeState(FULFILLED, data);
@@ -29,7 +30,39 @@
       if (this.#state !== PENDING) return;
       this.#state = state;
       this.#result = result;
-      console.log(this.#state, this.#result);
+      this.#run();
+    }
+    #run() {
+      if (this.#state === PENDING) return;
+      while (this.#handlers.length) {
+        const { onfulfilled, onrejected, resolve, reject } =
+          this.#handlers.shift();
+        if (this.#state === FULFILLED) {
+          if (typeof onfulfilled === "function") {
+            onfulfilled(this.#result);
+          }
+        } else {
+          if (typeof onrejected === "function") {
+            onrejected(this.#result);
+          }
+        }
+      }
+    }
+    /**
+     * 2个问题：
+     *  1.onfulfilled和onrejected的调用时机
+     *  2.promise什么时候是完成的，什么时候是拒绝的
+     */
+    then(onfulfilled, onrejected) {
+      return new MyPromise((resolve, reject) => {
+        this.#handlers.push({
+          onfulfilled,
+          onrejected,
+          resolve,
+          reject,
+        });
+        this.#run();
+      });
     }
   }
 
@@ -44,9 +77,26 @@
                 throw 123;
             }, 0);
      */
-    throw 123;
+    setTimeout(() => {
+      reject(123);
+    }, 1000);
   });
-  //   console.log(p);
+  p.then(
+    (res) => {
+      console.log("promise完成1", res);
+    },
+    (err) => {
+      console.log("promise失败1", err);
+    }
+  );
+  p.then(
+    (res) => {
+      console.log("promise完成2", res);
+    },
+    (err) => {
+      console.log("promise失败2", err);
+    }
+  );
 }
 
 // then方法的实现
