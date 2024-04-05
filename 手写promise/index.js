@@ -32,19 +32,45 @@
       this.#result = result;
       this.#run();
     }
+    #isPromiseLike(value) {
+      return false;
+    }
+    #runMicroTask(func) {
+      setTimeout(func, 0);
+    }
+    /**
+     * 1.对应的回调不是函数
+     * 2.回调是函数
+     * 3.返回结果是promise
+     */
+    #runOne(callback, resolve, reject) {
+      this.#runMicroTask(() => {
+        if (typeof callback !== "function") {
+          const settled = this.#state === FULFILLED ? resolve : reject;
+          settled(this.#result);
+          return;
+        }
+        try {
+          const data = callback(this.#result);
+          if (this.#isPromiseLike(data)) {
+            data.then(resolve, reject);
+          } else {
+            resolve(data);
+          }
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }
     #run() {
       if (this.#state === PENDING) return;
       while (this.#handlers.length) {
         const { onfulfilled, onrejected, resolve, reject } =
           this.#handlers.shift();
         if (this.#state === FULFILLED) {
-          if (typeof onfulfilled === "function") {
-            onfulfilled(this.#result);
-          }
+          this.#runOne(onfulfilled, resolve, reject);
         } else {
-          if (typeof onrejected === "function") {
-            onrejected(this.#result);
-          }
+          this.#runOne(onrejected, resolve, reject);
         }
       }
     }
@@ -81,22 +107,10 @@
       reject(123);
     }, 1000);
   });
-  p.then(
-    (res) => {
-      console.log("promise完成1", res);
-    },
-    (err) => {
-      console.log("promise失败1", err);
-    }
-  );
-  p.then(
-    (res) => {
-      console.log("promise完成2", res);
-    },
-    (err) => {
-      console.log("promise失败2", err);
-    }
-  );
+  p.then(null, (err) => {
+    console.log("promise失败1", err);
+    return 456;
+  }).then((data) => {
+    console.log("ok", data);
+  });
 }
-
-// then方法的实现
