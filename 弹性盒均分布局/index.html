@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+      }
+      .part {
+        /* flex:gsb
+            默认值:0 0 auto
+           flex:1=>flex-grow:1 flex-shrink:1 flex-basis:0%
+        */
+
+        /* 默认值0 
+            flex-grow: 1;
+        */
+        /* 默认值0 
+            flex-shink: 1;
+        */
+
+        /*默认值auto 
+          flex-basis: 0; 初始宽度
+        */
+
+        flex: 1 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="part" style="background: lime">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur
+        quas sequi, deleniti doloribus adipisci in provident consequuntur harum
+        qui error voluptatem dolor quisquam perspiciatis omnis ipsam pariatur.
+        Porro, laboriosam impedit.
+      </div>
+      <div class="part" style="background: orange"></div>
+      <div class="part" style="background: orangered"></div>
+    </div>
+  </body>
+</html>

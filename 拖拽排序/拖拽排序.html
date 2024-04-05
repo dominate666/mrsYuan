@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .list {
+      }
+      .list-item {
+        background: orangered;
+        margin-top: 5px;
+        cursor: move;
+        user-select: none;
+        border-radius: 5px;
+      }
+      .list-item.moving {
+        background: transparent;
+        color: transparent;
+        border: 1px solid lightcoral;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="list">
+      <div draggable="true" class="list-item">1</div>
+      <div draggable="true" class="list-item">2</div>
+      <div draggable="true" class="list-item">3</div>
+      <div draggable="true" class="list-item">4</div>
+      <div draggable="true" class="list-item">5</div>
+    </div>
+  </body>
+</html>
+<script src="./index.js"></script>
