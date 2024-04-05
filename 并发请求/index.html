@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<script src="./index.js"></script>
+<script>
+  let urls = [];
+  for (let i = 1; i <= 10; i++) {
+    urls.push(`https://jsonplaceholder.typicode.com/todos/${i}`);
+  }
+  concurRequest(urls, 20).then((res) => {
+    console.log(res);
+  });
+</script>

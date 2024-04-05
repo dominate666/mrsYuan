@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        background: #0f0;
+        padding: 10px;
+        width: 500px;
+        margin: 0 auto;
+      }
+      .text-container {
+        height: 100px;
+        overflow: hidden;
+        background: orangered;
+      }
+      .text-container::before {
+        content: "";
+        display: block;
+        height: 80px;
+      }
+      .content {
+        line-height: 25px;
+        margin-top: -80px;
+      }
+      .more {
+        background: #000;
+        float: right;
+        color: #fff;
+        line-height: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="text-container">
+        <div class="more">...</div>
+        <div class="content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
+          ullam quis debitis veniam natus dolor, sit deserunt. Laudantium sequi
+          fugit ad velit suscipit fuga laboriosam, illo quaerat ab facilis!
+          Beatae. Lorem ipsum dolor sit amet consectetur Blanditiis ullam quis
+          debitis veniam natus dolor, sit deserunt. Laudantium sequi fugit ad
+          velit suscipit fuga laboriosam, illo quaerat ab facilis! Beatae.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  let textContainer = document.querySelector(".text-container");
+  let content = document.querySelector(".content");
+  let more = document.querySelector(".more");
+  console.log(textContainer.offsetHeight);
+  console.log(content.offsetHeight);
+  if (content.offsetHeight < textContainer.offsetHeight) {
+    more.style.display = "none";
+  }
+</script>
