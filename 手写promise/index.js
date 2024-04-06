@@ -108,9 +108,55 @@
     }, 1000);
   });
   p.then(null, (err) => {
-    console.log("promise失败1", err);
+    // console.log("promise失败1", err);
     return 456;
   }).then((data) => {
-    console.log("ok", data);
+    // console.log("ok", data);
   });
+}
+
+// 手写promise.all
+{
+  /**
+   * 1.静态函数
+   * 2.有一个参数，不简单的是一个数组，是一个可迭代的对象
+   * 3.返回值是一个promise
+   *
+   */
+  Promise.myAll = function (proms) {
+    let res, rej;
+    let p = new Promise((resolve, reject) => {
+      res = resolve;
+      rej = reject;
+    });
+    let i = 0; // 统计promise的数量，不能直接用length（set->是size）
+    let fulfilled = 0; // 是否全部完成
+    let result = [];
+    for (let prom of proms) {
+      let index = i;
+      i++;
+      // 传入的不一定是promise([1,2,3])
+      Promise.resolve(prom).then((data) => {
+        // 1.把完成的数组汇总到最终结果
+        result[index] = data;
+        // 2.判定是否全部完成
+        fulfilled++;
+        if (fulfilled === i) {
+          res(result);
+        }
+      }, rej);
+    }
+    if (i === 0) {
+      res([]);
+    }
+    return p;
+  };
+  Promise.myAll([1, 2, 3, Promise.resolve(456)]).then(
+    (res) => {
+      console.log(res);
+    },
+    (err) => {
+      console.log("err", err);
+    }
+  );
 }

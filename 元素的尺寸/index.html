@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<script>
+  /**
+   * 1.getComputedStyle(dom).width  CSSOM树 不能反应界面上的尺寸
+   * 2.dom.style.width  // dom树
+   *
+   * clientWidth=content+padding
+   * offsetWidth=content+padding+border+scroll(元素本身的尺寸)
+   * scrollWidth 不是元素本身的尺寸，而是这个元素里面那些东西的尺寸
+   * 这3个属性读的是Layout Tree(布局树,包含的是几何信息，无法得到变换后的结果的)
+   *
+   * getBoundingClientRect(浏览器管线的最后一步-gpu画的，和渲染主线程没关系了
+   *           可能会有一些变换，transform，人眼能看到的东西)
+   *
+   *
+   */
+</script>
