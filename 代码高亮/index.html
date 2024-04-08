@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #container {
+        margin: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <input type="text" id="inp" />
+      <div id="box"></div>
+    </div>
+  </body>
+</html>
+<script>
+  const input = document.querySelector("input");
+
+  input.addEventListener("keyup", setvalue);
+
+  let heroes = [
+    {
+      name: "ironman",
+      age: 30,
+      power: "money",
+    },
+    {
+      name: "spiderman",
+      age: 25,
+      power: "spider",
+    },
+    {
+      name: "thor",
+      age: 40,
+      power: "hammer",
+    },
+    {
+      name: "captain america",
+      age: 35,
+      power: "shield",
+    },
+  ];
+
+  function setvalue(e) {
+    let reg;
+    const key = input.value;
+    if (key) {
+      reg = new RegExp(key, "gi");
+    }
+    box.innerHTML = heroes
+      .map((hero) => {
+        let name = hero.name;
+        if (reg) {
+          // 一旦字符串里边找到了满足规则的部分,就会调用这个函数，然后把这个函数的返回结果作为替换结果
+          // 函数里边会把匹配的东西给你传进来
+          name = name.replace(reg, function (key) {
+            console.log(key);
+            return `<em style="color:red">${key} </em>`;
+          });
+        }
+        return `
+    <div>
+      <h1>${name}</h1>
+    </div>
+    `;
+      })
+      .join("");
+  }
+
+  setvalue();
+</script>
